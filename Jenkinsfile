@@ -1,21 +1,22 @@
 pipeline {
     agent {
-        node { label 'nodejs' }
+        docker {
+            image 'node:6-alpine' 
+            args '-p 3000:3000' 
+        }
+    }
+    environment {
+        CI = 'true'
     }
     stages {
-        stage("Clone and Install Packages") {
+        stage('Build') { 
             steps {
-                nvm('8.11.3') {
-                    echo "Cloning info..."
-                    sh 'npm install'
-                }
+                sh 'npm install' 
             }
         }
-        stage("Unit Test") {
+        stage('Test') {
             steps {
-                nvm('8.11.3') {
-                    sh 'npm test -- --coverage'
-                }
+                sh './jenkins/scripts/test.sh'
             }
         }
     }
