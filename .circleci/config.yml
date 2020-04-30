@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@1.1.6
+  linter: reactioncommerce/linter@0.0.1
 jobs:
   build-and-test:
     executor:
@@ -11,7 +12,13 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+  test-eslint:
+    executor: npm_executor
+    working_directory: ~/reaction-app
+    steps:
+      - run_eslint
 workflows:
     build-and-test:
       jobs:
         - build-and-test
+        - test-eslint
