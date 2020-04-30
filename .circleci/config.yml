@@ -31,11 +31,6 @@ commands:
       - checkout
       - attach_workspace:
           at: docker-build-workspace
-      - restore_cache:
-          keys:
-            - node-modules-{{ checksum "docker-build-workspace/GLOBAL_CACHE_VERSION" }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-            - node-modules-{{ checksum "docker-build-workspace/GLOBAL_CACHE_VERSION" }}-{{ .Branch }}
-            - node-modules-{{ checksum "docker-build-workspace/GLOBAL_CACHE_VERSION" }}-master
       - run:
           name: ESLint
           command: |
