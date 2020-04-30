@@ -34,7 +34,7 @@ commands:
       - run:
           name: ESLint
           command: |
-            npm run lint -- --quiet
+            npm run lint
 workflows:
     build-and-test:
       jobs:
