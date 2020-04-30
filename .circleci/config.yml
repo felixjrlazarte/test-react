@@ -1,15 +1,6 @@
 version: 2.1
 orbs:
   node: circleci/node@1.1.6
-  linter: reactioncommerce/linter@0.0.1
-executors:
-  npm_executor:
-    parameters:
-      tag:
-        type: string
-        default: "8-stretch"
-    docker:
-      - image: circleci/node:<<parameters.tag>>
 jobs:
   build-and-test:
     executor:
@@ -20,23 +11,7 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
-  test-eslint:
-    executor: npm_executor
-    working_directory: ~/reaction-app
-    steps:
-      - run_eslint
-commands:
-  run_eslint:
-    steps:
-      - checkout
-      - attach_workspace:
-          at: docker-build-workspace
-      - run:
-          name: ESLint
-          command: |
-            npm run lint
 workflows:
     build-and-test:
       jobs:
         - build-and-test
-        - test-eslint
